@@ -53,7 +53,7 @@ def totalCount (frame, time_frame, file_csv, file_html):
 	dfTotal.columns = dfTotal.columns.droplevel(0)
 	dfTotal['Rejected'] = dfTotal['Shares'] - dfTotal['Accepted'].astype(datetime)
 	dfTotal['Elapsed'] = datetime.now() - dfTotal['Last'].astype(datetime)
-	dfTotal['Last Seen'] = dfTotal['Elapsed']; .apply(lambda x: texttime.stringify(x)) + ' ago'
+	dfTotal['Last Seen'] = dfTotal['Elapsed']#.apply(lambda x: texttime.stringify(x)) + ' ago'
 	dfTotal['Elapsed'] = dfTotal['Elapsed'].astype(pd.Timedelta).apply(lambda l: l.seconds)
 	dfTotal = dfTotal.join(uptime)
 	dfTotal = dfTotal[['Shares', 'Accepted','Q', 'A', 'Last Seen', 'Last', 'Rejected', 'Elapsed']]
