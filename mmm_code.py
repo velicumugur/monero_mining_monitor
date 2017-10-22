@@ -40,7 +40,7 @@ def totalCount (frame, time_frame, file_csv, file_html):
 	uptime = 100 - 100 * (time_frame == 0).mean()
 	uptime = uptime.to_frame()
 	uptime.columns = ['A']
-	uptime[['A']] = uptime[['A']].astype(int) 
+	uptime[['A']] = uptime[['A']].astype(float)
 	
 	#Everything else
 	frame['status_bool'] = frame.status.eq('accepted') * 1
@@ -51,8 +51,8 @@ def totalCount (frame, time_frame, file_csv, file_html):
 			 time=dict(Last='last')
 			))
 	dfTotal.columns = dfTotal.columns.droplevel(0)
-	dfTotal['Rejected'] = dfTotal['Shares'] - dfTotal['Accepted']
-	dfTotal['Elapsed'] = datetime.now() - dfTotal['Last']
+	dfTotal['Rejected'] = dfTotal['Shares'] - dfTotal['Accepted'].astype(datetime)
+	dfTotal['Elapsed'] = datetime.now() - dfTotal['Last'].astype(datetime)
 	dfTotal['Last Seen'] = dfTotal['Elapsed'].apply(lambda x: texttime.stringify(x)) + ' ago'
 	dfTotal['Elapsed'] = dfTotal['Elapsed'].astype(pd.Timedelta).apply(lambda l: l.seconds)
 	dfTotal = dfTotal.join(uptime)
